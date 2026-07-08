@@ -1,4 +1,3 @@
-````markdown
 # 🚀 Phase 5: Caching (Week 5)
 
 A structured roadmap to learn **Caching** concepts and implement high-performance backend applications using **Redis**.
