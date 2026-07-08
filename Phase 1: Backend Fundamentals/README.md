@@ -1,4 +1,3 @@
-```markdown
 # 🚀 Phase 1: Backend Fundamentals (Week 1)
 
 A structured roadmap to learn the core backend concepts using **Python**, **Django**, and **Django REST Framework (DRF)**.
