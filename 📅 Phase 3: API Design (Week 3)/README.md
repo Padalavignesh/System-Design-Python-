@@ -1,4 +1,4 @@
-# 📅 Phase 3: API Design (Week 3)
+# Phase 3: API Design (Week 3)
 
 Learn how to design clean, scalable, and maintainable REST APIs using Django REST Framework (DRF). This phase covers API conventions, query parameters, versioning, and best practices.
 
