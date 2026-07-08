@@ -1,0 +1,724 @@
+# Phase 1: Backend Fundamentals (Week 1)
+
+---
+# HTTP & HTTPS - Complete Notes (With Python Examples)
+
+
+---
+# What is HTTP?
+
+**HTTP (HyperText Transfer Protocol)** is an application-layer protocol used for communication between a **client** (browser, mobile app, Postman, React app) and a **server** (backend application such as Django, Flask, Node.js, etc.).
+
+Whenever you open a website or call an API, HTTP is used to transfer requests and responses.
+
+
+## HTTP Communication Flow
+
+```text
+Browser (Client)
+      |
+      | HTTP Request
+      V
+Backend Server
+      |
+      | HTTP Response
+      V
+Browser (Client)
+```
+
+### Example
+
+You open:
+
+```text
+http://example.com
+```
+
+The browser sends an HTTP request.
+
+The server processes the request and returns:
+
+* HTML
+* CSS
+* JavaScript
+* Images
+* JSON Data
+
+
+---
+# Real-Life Example
+
+Imagine ordering food.
+
+```text
+You (Client)
+      |
+      | Order Pizza (Request)
+      V
+Restaurant (Server)
+      |
+      | Pizza Delivered (Response)
+      V
+You (Client)
+```
+
+HTTP works exactly the same way.
+
+
+---
+# HTTP Request Structure
+
+Every HTTP request contains:
+
+```http
+GET /products HTTP/1.1
+Host: example.com
+```
+
+It also includes:
+
+* Request Line
+* Headers
+* Body (Optional)
+
+Example:
+
+```http
+GET /users HTTP/1.1
+Host: localhost:8000
+```
+
+
+---
+# HTTP Response Structure
+
+Example:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+
+Response Body
+
+```json
+{
+    "name": "Rahul",
+    "age": 22
+}
+```
+
+
+---
+# Client and Server
+
+## Client
+
+A client sends requests.
+
+Examples:
+
+* Browser
+* Mobile App
+* Postman
+* React Application
+
+## Server
+
+A server receives requests, processes them, and returns responses.
+
+Examples:
+
+* Django
+* Flask
+* Node.js
+* Spring Boot
+
+Example Flow:
+
+```text
+React App
+     |
+HTTP Request
+     |
+Django Server
+     |
+Database
+     |
+HTTP Response
+     |
+React App
+```
+
+
+---
+# HTTP Methods
+
+These are the most important HTTP methods for backend development and interviews.
+
+| Method | Purpose                 | Example         |
+| ------ | ----------------------- | --------------- |
+| GET    | Read Data               | Get all users   |
+| POST   | Create Data             | Create new user |
+| PUT    | Replace Entire Resource | Update profile  |
+| PATCH  | Update Partial Resource | Change password |
+| DELETE | Delete Resource         | Delete account  |
+
+
+---
+# 1. GET Method
+
+Used to fetch data.
+
+Example Request
+
+```http
+GET /users
+```
+
+Example Response
+
+```json
+[
+    {
+        "id": 1,
+        "name": "Rahul"
+    },
+    {
+        "id": 2,
+        "name": "Priya"
+    }
+]
+```
+
+## Flask Example
+
+```python
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+@app.route("/users", methods=["GET"])
+def get_users():
+    return jsonify([
+        {"id": 1, "name": "Rahul"},
+        {"id": 2, "name": "Priya"}
+    ])
+
+if __name__ == "__main__":
+    app.run(debug=True)
+```
+
+Output
+
+```json
+[
+    {
+        "id": 1,
+        "name": "Rahul"
+    },
+    {
+        "id": 2,
+        "name": "Priya"
+    }
+]
+```
+
+
+---
+# 2. POST Method
+
+Used to create new data.
+
+Request
+
+```http
+POST /users
+```
+
+Body
+
+```json
+{
+    "name": "Rahul"
+}
+```
+
+## Flask Example
+
+```python
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route("/users", methods=["POST"])
+def create_user():
+    data = request.get_json()
+
+    return jsonify({
+        "message": "User Created",
+        "user": data
+    })
+
+if __name__ == "__main__":
+    app.run(debug=True)
+```
+
+Output
+
+```json
+{
+    "message": "User Created",
+    "user": {
+        "name": "Rahul"
+    }
+}
+```
+
+
+---
+# 3. PUT Method
+
+Used to replace an entire resource.
+
+Request
+
+```http
+PUT /users/1
+```
+
+Body
+
+```json
+{
+    "name": "Rahul",
+    "age": 24
+}
+```
+
+
+---
+# 4. PATCH Method
+
+Used to update only specific fields.
+
+Request
+
+```http
+PATCH /users/1
+```
+
+Body
+
+```json
+{
+    "age": 25
+}
+```
+
+Only the `age` field changes.
+
+
+---
+# 5. DELETE Method
+
+Deletes a resource.
+
+Request
+
+```http
+DELETE /users/1
+```
+
+Response
+
+```json
+{
+    "message": "Deleted Successfully"
+}
+```
+
+
+---
+# HTTP Status Codes
+
+| Code | Meaning               |
+| ---- | --------------------- |
+| 200  | OK                    |
+| 201  | Created               |
+| 204  | No Content            |
+| 301  | Permanent Redirect    |
+| 302  | Temporary Redirect    |
+| 400  | Bad Request           |
+| 401  | Unauthorized          |
+| 403  | Forbidden             |
+| 404  | Not Found             |
+| 405  | Method Not Allowed    |
+| 500  | Internal Server Error |
+| 502  | Bad Gateway           |
+| 503  | Service Unavailable   |
+
+Examples
+
+Successful Request
+
+```http
+GET /users
+
+Response
+
+200 OK
+```
+
+Wrong URL
+
+```http
+GET /abc
+
+Response
+
+404 Not Found
+```
+
+Server Error
+
+```http
+500 Internal Server Error
+```
+
+
+---
+# HTTP Headers
+
+Headers carry additional information about the request or response.
+
+Example
+
+```http
+Content-Type: application/json
+Authorization: Bearer Token
+Accept: application/json
+User-Agent: Chrome
+```
+
+Common Headers
+
+| Header        | Purpose                  |
+| ------------- | ------------------------ |
+| Content-Type  | Type of data being sent  |
+| Authorization | User authentication      |
+| Accept        | Expected response format |
+| Cookie        | Session information      |
+| Host          | Server hostname          |
+
+
+---
+# HTTP Body
+
+The body contains the actual data sent to the server.
+
+Example
+
+```json
+{
+    "username": "Rahul",
+    "password": "123456"
+}
+```
+
+
+---
+# URL Structure
+
+Example
+
+```text
+https://example.com/products/10?color=red
+```
+
+Breakdown
+
+```text
+https://        -> Protocol
+
+example.com     -> Domain
+
+/products       -> Path
+
+10              -> Resource ID
+
+?color=red      -> Query Parameter
+```
+
+
+---
+# What is HTTPS?
+
+**HTTPS (HyperText Transfer Protocol Secure)** is the secure version of HTTP.
+
+It encrypts data exchanged between the client and server using **SSL/TLS**.
+
+```text
+HTTP
+   |
+No Encryption
+   |
+Anyone can read the data
+```
+
+```text
+HTTPS
+   |
+Encrypted Data
+   |
+Safe Communication
+```
+
+
+---
+# Why HTTPS?
+
+Without HTTPS
+
+```text
+Login
+
+↓
+
+Username
+
+Password
+
+↓
+
+Anyone on the network can intercept the data.
+```
+
+With HTTPS
+
+```text
+Encrypted Data
+
+↓
+
+Only the server can decrypt it.
+```
+
+
+---
+# SSL/TLS Certificate
+
+HTTPS works using an SSL/TLS certificate.
+
+```text
+Browser
+
+↓
+
+SSL Handshake
+
+↓
+
+Encrypted Connection
+
+↓
+
+Secure Communication
+```
+
+The 🔒 padlock icon in the browser indicates a secure HTTPS connection.
+
+
+---
+# HTTP vs HTTPS
+
+| HTTP               | HTTPS                                 |
+| ------------------ | ------------------------------------- |
+| Not Secure         | Secure                                |
+| Port 80            | Port 443                              |
+| No Encryption      | Encrypted                             |
+| Slightly Faster    | Slightly Slower (Encryption Overhead) |
+| No SSL Certificate | Requires SSL/TLS Certificate          |
+
+
+---
+# Example of HTTP
+
+```text
+http://example.com/login
+```
+
+Request
+
+```text
+username=Rahul
+
+password=1234
+```
+
+Anyone monitoring the network could potentially read this information.
+
+
+---
+# Example of HTTPS
+
+```text
+https://example.com/login
+```
+
+The data is encrypted before being sent, making it unreadable to anyone intercepting the traffic.
+
+
+---
+# Simple Python HTTP Server Example
+
+```python
+from http.server import HTTPServer, BaseHTTPRequestHandler
+
+class MyServer(BaseHTTPRequestHandler):
+
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/plain")
+        self.end_headers()
+        self.wfile.write(b"Hello from HTTP Server!")
+
+server = HTTPServer(("localhost", 8000), MyServer)
+
+print("Server running at http://localhost:8000")
+server.serve_forever()
+```
+
+Open in your browser:
+
+```text
+http://localhost:8000
+```
+
+Output
+
+```text
+Hello from HTTP Server!
+```
+
+
+---
+# Django Example
+
+## urls.py
+
+```python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("hello/", views.hello),
+]
+```
+
+## views.py
+
+```python
+from django.http import JsonResponse
+
+def hello(request):
+    return JsonResponse({
+        "message": "Hello HTTP!"
+    })
+```
+
+Visit
+
+```text
+http://127.0.0.1:8000/hello/
+```
+
+Output
+
+```json
+{
+    "message": "Hello HTTP!"
+}
+```
+
+
+---
+# Interview Questions
+
+### 1. What is HTTP?
+
+HTTP is an application-layer protocol used for communication between clients and servers on the web.
+
+
+### 2. What is HTTPS?
+
+HTTPS is HTTP secured with SSL/TLS encryption to protect data in transit.
+
+
+### 3. Difference Between HTTP and HTTPS
+
+* HTTP does not encrypt data.
+* HTTPS encrypts data using SSL/TLS.
+* HTTP uses Port 80.
+* HTTPS uses Port 443.
+
+
+### 4. What is a GET Request?
+
+Used to retrieve data from the server without modifying it.
+
+
+### 5. What is a POST Request?
+
+Used to send data to the server and create a new resource.
+
+
+### 6. What are HTTP Status Codes?
+
+HTTP status codes indicate the result of a request.
+
+Examples:
+
+* 200 OK
+* 404 Not Found
+* 500 Internal Server Error
+
+
+---
+# Quick Revision Notes
+
+* HTTP = Communication protocol between client and server.
+* HTTPS = Secure version of HTTP using SSL/TLS encryption.
+* Client = Browser, Mobile App, Postman.
+* Server = Django, Flask, Node.js, Spring Boot.
+* Request = Sent from client to server.
+* Response = Sent from server back to client.
+* GET = Read data.
+* POST = Create data.
+* PUT = Replace an existing resource.
+* PATCH = Partially update a resource.
+* DELETE = Remove a resource.
+* 200 = Success.
+* 201 = Created.
+* 400 = Bad Request.
+* 401 = Unauthorized.
+* 403 = Forbidden.
+* 404 = Not Found.
+* 500 = Internal Server Error.
+* HTTP uses Port 80.
+* HTTPS uses Port 443.
+* Always use HTTPS in production to protect passwords, payment details, authentication tokens, and other sensitive data.
+
+
+---
+# Example HTTP Request
+
+```http
+GET /products HTTP/1.1
+Host: localhost:8000
+Accept: application/json
+```
+
+This request asks the server to retrieve the list of products.
+
+The server processes the request and responds with product data (usually in JSON format).
